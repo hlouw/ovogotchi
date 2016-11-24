@@ -3,6 +3,7 @@ import { ActionReducer, Action } from '@ngrx/store';
 export interface OverallState {
     state: EmotionalState;
     wellbeing: number;
+    thought?: string;
 }
 
 export enum EmotionalState {
@@ -31,16 +32,19 @@ const stateMap = {
   'hungry': EmotionalState.HUNGRY,
   'angry': EmotionalState.ANGRY,
   'lonely': EmotionalState.LONELY,
-  'stressed': EmotionalState.STRESSED,
+  'stressed': EmotionalState.STRESSED
 };
 
 export const emotionReducer: ActionReducer<OverallState> = (state: OverallState = INITIAL_STATE, action: Action) => {
     switch (action.type) {
         case STATE_UPDATE:
-          return Object.assign({}, state, {
+          let newState = Object.assign({}, state, {
             state: stateMap[action.payload.state.toLowerCase()],
-            wellbeing: action.payload.wellbeing
+            wellbeing: action.payload.wellbeing,
+            thought: action.payload.thought
           });
+          console.log('NEW STATE: ' + JSON.stringify(newState));
+          return newState;
 
         default:
           return state;

@@ -1,10 +1,12 @@
 package ovogotchi.slackbot
 
+import ovogotchi.emotion.EmotionalState
+
 sealed trait Messages
 
 case class SendMessage(user: Option[String], message: String, channel: String) extends Messages
 
-case class SendNotification(emotion: String, channel: String, message: String) extends Messages
+case class NotifiableState(emotion: EmotionalState) extends Messages
 
 case class MessageReceived(message: String, user: String, channel: String) extends Messages
 

@@ -46,7 +46,6 @@ class SlackBot(emotionEngine: ActorRef) extends Actor {
   }
 
   private def generateResponse(message: String): Future[String] = {
-
     println("Generating Response")
     message match {
       case msg if msg.contains("how")  || msg.contains("How")  => println("case 1" ); (emotionEngine ? GetCurrentState).mapTo[State].map(res => processEmotionalResponse(res, How))
@@ -63,7 +62,7 @@ class SlackBot(emotionEngine: ActorRef) extends Actor {
       channel <- findChannel(client)(_.id == received.channel)
       user    <- findUser(received.user)
       res     <- generateResponse(received.message)
-      msg     <- sendMessage(channel.name, s"Hey @${user.name}, $res")
+      msg     <- sendMessage(channel.name, s"Hey ${user.name}, $res")
     } yield msg
   }
 

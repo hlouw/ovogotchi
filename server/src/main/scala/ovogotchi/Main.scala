@@ -11,7 +11,7 @@ import ovogotchi.input.Demo
 
 import scala.io.StdIn
 
-object Main extends App {
+object Mainwq {
 
   implicit val system = ActorSystem("ovogotchi")
   implicit val materializer = ActorMaterializer()

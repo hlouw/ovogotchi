@@ -27,8 +27,9 @@ object Main extends App {
   implicit val timeout = Timeout(1.second)
 
   val websocketClients = system.actorOf(Props(new WebsocketClients), "websocketClients")
-  val slackbot = system.actorOf(Props(new SlackBot), "slackbot")
-  val engine = system.actorOf(Props(new EmotionEngine(websocketClients, slackbot)), "engine")
+  val engine = system.actorOf(Props(new EmotionEngine(websocketClients)), "engine")
+
+
 
   val route =
     path("ws") {

@@ -1,15 +1,18 @@
 package ovogotchi.emotion
 
-import akka.actor.{Actor, ActorRef}
+import akka.actor.{Actor, ActorRef, Props}
 import ovogotchi.input.InputEvent
 import ovogotchi.output.{WebsocketClients, WebsocketPayload}
+import ovogotchi.slackbot.SlackBot
 
 import scala.util.Random
 
-class EmotionEngine(websocketClients: ActorRef, slackbot: ActorRef) extends Actor {
+class EmotionEngine(websocketClients: ActorRef) extends Actor {
   import EmotionEngine._
 
   private var state = State(wellbeing = 50, emotionalState = EmotionalState.Neutral, lastInputEvent = None)
+
+  val slackbot = context.actorOf(Props(new SlackBot(self)), "slackbot")
 
   def receive = {
     case HandleEvent(event) =>
@@ -29,7 +32,7 @@ class EmotionEngine(websocketClients: ActorRef, slackbot: ActorRef) extends Acto
 object EmotionEngine {
 
   case class HandleEvent(event: InputEvent)
-  case object GetCurrentState
+  case class GetCurrentState()
 
   case class State(wellbeing: Int, emotionalState: EmotionalState, lastInputEvent: Option[InputEvent])
 

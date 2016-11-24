@@ -16,6 +16,16 @@ export class AvatarComponent {
         return 'assets/neutral.gif';
       case EmotionalState.SAD:
         return 'assets/sad.gif';
+      case EmotionalState.SICK:
+        return 'assets/sick.png';
+      case EmotionalState.HUNGRY:
+        return 'assets/hungry.png';
+      case EmotionalState.ANGRY:
+        return 'assets/angry.png';
+      case EmotionalState.LONELY:
+        return 'assets/lonely.png';
+      case EmotionalState.STRESSED:
+        return 'assets/stressed.png';
     }
   }
 }

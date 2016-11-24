@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Lato:400,400i');
+
 @brand-primary: #48befe;
 @brand-danger: #fe4848;
 @brand-warning: #fea648;
@@ -22,6 +24,14 @@ body {
   text-align: center;
   margin: 0;
   padding: 0;
+  font-family: 'Lato', sans-serif;
+}
+.logo {
+  margin: 15px auto 40px;
+
+  @media @phone {
+    width: 200px;
+  }
 }
 img {
   max-width: 100%;
@@ -117,9 +127,9 @@ img {
 }
 .og-thought-image {
   position: absolute;
-  top: 14px;
-  left: 40px;
-  width: 50px;
+  top: 20px;
+  left: 45px;
+  width: 45px;
 }
 
 @keyframes bob {

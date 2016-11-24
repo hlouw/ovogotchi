@@ -9,8 +9,11 @@ export enum EmotionalState {
     HAPPY,
     NEUTRAL,
     SAD,
+    SICK,
+    HUNGRY,
     ANGRY,
-    ILL
+    LONELY,
+    STRESSED
 }
 
 export const STATE_UPDATE = 'STATE_UPDATE';

@@ -12,8 +12,6 @@ import { OverallState, EmotionalState, STATE_UPDATE } from '../emotion';
 })
 export class CharacterComponent implements OnInit, OnDestroy {
 
-  thought: string = 'https://avatars1.githubusercontent.com/u/106760?v=3&s=400';
-
   private connection;
 
   state: Observable<EmotionalState>;

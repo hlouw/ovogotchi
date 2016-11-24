@@ -10,5 +10,6 @@ export class CharacterComponent {
   constructor() { }
 
   state: EmotionalState = EmotionalState.NEUTRAL;
-  wellbeing: number = 50;
+  wellbeing: number = 60;
+  thought: string = 'https://avatars1.githubusercontent.com/u/106760?v=3&s=400';
 }

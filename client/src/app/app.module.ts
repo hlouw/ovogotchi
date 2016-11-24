@@ -9,13 +9,15 @@ import { AppComponent } from './app.component';
 import { CharacterComponent } from './character/character.component';
 import { AvatarComponent } from './character/avatar/avatar.component';
 import { StatusComponent } from './character/status/status.component';
+import { ThoughtComponent } from './character/thought/thought.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CharacterComponent,
     AvatarComponent,
-    StatusComponent
+    StatusComponent,
+    ThoughtComponent
   ],
   imports: [
     BrowserModule,

@@ -35,11 +35,18 @@ img {
 .og-avatar {
   max-width: 300px;
   margin: 0 auto;
+  min-height: 312px;
+
+  @media @phone {
+    max-width: 200px;
+    padding-top: 40px;
+    min-height: 249px;
+  }
 }
 .og-status {
   width: 500px;
   max-width: 100%;
-  margin: 40px auto 0;
+  margin: 40px auto 20px;
   display: flex;
 }
 .og-status-face {
@@ -91,5 +98,82 @@ img {
     height: 10px;
     border-radius: 5px;
     background: rgba(255,255,255, 0.6);
+  }
+}
+.og-character {
+  position: relative;
+}
+.og-thought {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 120px;
+  margin-left: 80px;
+  animation: bob 2s ease-in-out infinite;
+
+  @media @phone {
+    margin-left: 50px;
+  }
+}
+.og-thought-image {
+  position: absolute;
+  top: 14px;
+  left: 40px;
+  width: 50px;
+}
+
+@keyframes bob {
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+
+.spinner {
+  margin: 100px auto;
+  width: 100px;
+  height: 100px;
+  position: relative;
+  text-align: center;
+
+  -webkit-animation: sk-rotate 2.0s infinite linear;
+  animation: sk-rotate 2.0s infinite linear;
+}
+
+.dot1, .dot2 {
+  width: 60%;
+  height: 60%;
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  background-color: @brand-primary-dark;
+  border-radius: 100%;
+
+  -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
+  animation: sk-bounce 2.0s infinite ease-in-out;
+}
+
+.dot2 {
+  top: auto;
+  bottom: 0;
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
+}
+
+@-webkit-keyframes sk-rotate { 100% { -webkit-transform: rotate(360deg) }}
+@keyframes sk-rotate { 100% { transform: rotate(360deg); -webkit-transform: rotate(360deg) }}
+
+@-webkit-keyframes sk-bounce {
+  0%, 100% { -webkit-transform: scale(0.0) }
+  50% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes sk-bounce {
+  0%, 100% {
+    transform: scale(0.0);
+    -webkit-transform: scale(0.0);
+  } 50% {
+    transform: scale(1.0);
+    -webkit-transform: scale(1.0);
   }
 }

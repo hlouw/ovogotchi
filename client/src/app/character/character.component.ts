@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { EmotionalState } from '../emotion';
 
 @Component({
   selector: 'app-character',
   templateUrl: './character.component.html',
 })
-export class CharacterComponent implements OnInit {
+export class CharacterComponent {
 
   constructor() { }
 
-  ngOnInit() {
-  }
-
+  state: EmotionalState = EmotionalState.SAD;
+  wellbeing: number = 70;
 }

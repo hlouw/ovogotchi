@@ -13,34 +13,53 @@ body {
   background: @brand-primary;
   color: @text-color;
   text-align: center;
+  margin: 0;
+  padding: 0;
+}
+img {
+  max-width: 100%;
+  width: auto;
+  height: auto;
+}
+.container {
+  max-width: 1200px;
+  padding: 0 15px;
 }
 .og-avatar {
   max-width: 300px;
   margin: 0 auto;
-
-  img {
-    max-width: 100%;
-    width: auto;
-    height: auto;
-  }
 }
 .og-status {
-  max-width: 600px;
+  width: 600px;
+  max-width: 100%;
   margin: 40px auto 0;
+  display: flex;
+}
+.og-status-face {
+  width: 80px;
+
+  &:first-child {
+    padding-right: 10px;
+    text-align: right;
+  }
+  &:last-child {
+    padding-left: 10px;
+    text-align: left;
+  }
 }
 .og-status-bar {
-  width: 100%;
-  height: 50px;
-  border: 6px solid black;
-  border-radius: 25px;
-  background: @brand-primary-dark;
+  height: 46px;
+  border: 5px solid black;
+  border-radius: 23px;
+  background: lightgray;
   overflow: hidden;
-  transition: all 1s ease-in-out;
+  flex: 1;
 }
 .og-status-bar-progress {
   height: 100%;
   background: white;
   position: relative;
+  transition: all 1s ease-in-out;
 
   &:before {
     content: '';

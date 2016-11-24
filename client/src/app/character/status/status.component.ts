@@ -1,15 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-status',
   templateUrl: './status.component.html'
 })
-export class StatusComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
-  wellbeing: 5;
+export class StatusComponent {
+   @Input() wellbeing: number;
 }

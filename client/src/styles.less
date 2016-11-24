@@ -1,9 +1,16 @@
 @brand-primary: #48befe;
+@brand-danger: #fe4848;
+@brand-warning: #fea648;
+@brand-success: #00f773;
+
 @brand-primary-light: #d5effe;
 @brand-primary-dark: #0b7ba9;
+
 @text-color: #1d1d1b;
 @yolk: #ffdb01;
 @logo-color: #ffdb01;
+
+@phone: ~"(max-width: 479px)";
 
 *, *:before, *:after {
   box-sizing: border-box;
@@ -30,13 +37,14 @@ img {
   margin: 0 auto;
 }
 .og-status {
-  width: 600px;
+  width: 500px;
   max-width: 100%;
   margin: 40px auto 0;
   display: flex;
 }
 .og-status-face {
-  width: 80px;
+  width: 40px;
+  padding-top: 10px;
 
   &:first-child {
     padding-right: 10px;
@@ -51,15 +59,17 @@ img {
   height: 46px;
   border: 5px solid black;
   border-radius: 23px;
-  background: lightgray;
+  background: white;
   overflow: hidden;
   flex: 1;
 }
 .og-status-bar-progress {
   height: 100%;
-  background: white;
+  background: @brand-danger;
   position: relative;
   transition: all 1s ease-in-out;
+  &.progress-neutral {background: @brand-warning;}
+  &.progress-happy {background: @brand-success;}
 
   &:before {
     content: '';
@@ -70,7 +80,7 @@ img {
     width: 30%;
     height: 10px;
     border-radius: 5px;
-    background: @brand-primary-light;
+    background: rgba(255,255,255, 0.6);
   }
   &:after {
     content: '';
@@ -80,6 +90,6 @@ img {
     width: 10px;
     height: 10px;
     border-radius: 5px;
-    background: @brand-primary-light;
+    background: rgba(255,255,255, 0.6);
   }
 }

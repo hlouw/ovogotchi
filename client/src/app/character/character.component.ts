@@ -10,5 +10,5 @@ export class CharacterComponent {
   constructor() { }
 
   state: EmotionalState = EmotionalState.SAD;
-  wellbeing: number = 70;
+  wellbeing: number = 50;
 }

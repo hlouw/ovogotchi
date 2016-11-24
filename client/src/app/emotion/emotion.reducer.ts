@@ -13,8 +13,7 @@ export enum EmotionalState {
     ILL
 }
 
-export const WELLBEING = 'WELLBEING';
-export const STATE = 'STATE';
+export const STATE_UPDATE = 'STATE_UPDATE';
 
 const INITIAL_STATE: OverallState = {
     state: EmotionalState.NEUTRAL,
@@ -23,6 +22,10 @@ const INITIAL_STATE: OverallState = {
 
 export const emotionReducer: ActionReducer<OverallState> = (state: OverallState = INITIAL_STATE, action: Action) => {
     switch (action.type) {
-        case WELLBEING: return INITIAL_STATE;
+        case STATE_UPDATE:
+          return INITIAL_STATE;
+
+        default:
+          return state;
     }
 };

@@ -1,1 +1,4 @@
 server/src/main/resources/frontend/
+target/
+project/target/
+.idea/

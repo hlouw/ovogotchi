@@ -10,6 +10,8 @@ import { CharacterComponent } from './character/character.component';
 import { AvatarComponent } from './character/avatar/avatar.component';
 import { StatusComponent } from './character/status/status.component';
 import { ThoughtComponent } from './character/thought/thought.component';
+import { CharacterStateService } from './character/character-state.service';
+import { WebSocketService } from './shared/websocket.service';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,10 @@ import { ThoughtComponent } from './character/thought/thought.component';
     HttpModule,
     StoreModule.provideStore({ emotion: emotionReducer })
   ],
-  providers: [],
+  providers: [
+    CharacterStateService,
+    WebSocketService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

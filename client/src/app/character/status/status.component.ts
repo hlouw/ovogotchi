@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-status',
-  templateUrl: './status.component.html',
-  styleUrls: ['./status.component.less']
+  templateUrl: './status.component.html'
 })
 export class StatusComponent implements OnInit {
 
@@ -12,4 +11,5 @@ export class StatusComponent implements OnInit {
   ngOnInit() {
   }
 
+  wellbeing: 5;
 }

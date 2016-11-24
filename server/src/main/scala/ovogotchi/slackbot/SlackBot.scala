@@ -8,7 +8,7 @@ import slack.models.Channel
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class SlackBot()(implicit val actorSystem: ActorSystem) extends Actor {
+class SlackBot extends Actor {
 
   val config  = ConfigFactory.load()
   val token   =  config.getString("slack.apiToken")
@@ -16,7 +16,7 @@ class SlackBot()(implicit val actorSystem: ActorSystem) extends Actor {
 
   val res = botClient.listChannels() // => Future[Seq[Channel]]
 
-  val eventStream = actorSystem.actorOf(Props[EventStream])
+  val eventStream = context.actorOf(Props[EventStream])
 
 
   def sendMessage(channel: String, message: String, user: Option[String] = None) = {

@@ -1,25 +1,36 @@
 package ovogotchi.emotion
 
-import akka.actor.Cancellable
-import akka.http.scaladsl.model.ws.{Message, TextMessage}
-import akka.stream.scaladsl.{Flow, Source}
+import akka.actor.{Actor, ActorRef}
 import ovogotchi.input.InputEvent
-import ovogotchi.output.WebsocketPayload
-import io.circe.generic.auto._
-import io.circe.syntax._
+import ovogotchi.output.{WebsocketClients, WebsocketPayload}
+
+import scala.util.Random
+
+class EmotionEngine(websocketClients: ActorRef, slackbot: ActorRef) extends Actor {
+  import EmotionEngine._
+
+  private var state = State(wellbeing = 50, emotionalState = EmotionalState.Neutral, lastInputEvent = None)
+
+  def receive = {
+    case HandleEvent(event) =>
+      // TODO update emotional state using advanced AI techniques
+      state = State(wellbeing = Random.nextInt(100), emotionalState = EmotionalState.Happy, lastInputEvent = Some(event))
+
+      println(s"Sending updated state to websocket clients: $state")
+      websocketClients ! WebsocketClients.Broadcast(WebsocketPayload(state.emotionalState, state.wellbeing))
+
+      // TODO send slack message if necessary
+    case GetCurrentState =>
+      sender ! state
+  }
+
+}
 
 object EmotionEngine {
 
-  def handleEvent(event: InputEvent): Unit = {
-    // TODO update emotional state
-    // TODO send update to frontend
-    // TODO send Slack message if necessary
-    println(s"My emotional state is changing! ${event.effects}")
-  }
+  case class HandleEvent(event: InputEvent)
+  case object GetCurrentState
 
-  def addClient(): Source[Message, Cancellable] = {
-    import scala.concurrent.duration._
-    Source.tick(Duration.Zero, 1.second, TextMessage(WebsocketPayload(EmotionalState.Happy, 42).asJson.spaces2))
-  }
+  case class State(wellbeing: Int, emotionalState: EmotionalState, lastInputEvent: Option[InputEvent])
 
 }

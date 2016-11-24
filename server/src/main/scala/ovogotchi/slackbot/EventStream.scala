@@ -5,7 +5,7 @@ import com.typesafe.config.ConfigFactory
 import slack.models.Message
 import slack.rtm.SlackRtmClient
 
-class EventStream()(implicit val system: ActorSystem) extends Actor {
+class EventStream extends Actor {
   val config      = ConfigFactory.load()
   val token       =  config.getString("slack.apiToken")
   val eventClient = SlackRtmClient(token)
@@ -17,6 +17,6 @@ class EventStream()(implicit val system: ActorSystem) extends Actor {
   }
 
   override def receive: Receive = {
-   ???
+    case any => println(s"Received a message on event stream: $any")
   }
 }

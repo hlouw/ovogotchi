@@ -1,22 +1,34 @@
 package ovogotchi
 
-import akka.actor.ActorSystem
+import akka.actor.{ActorSystem, Props}
+import akka.pattern.ask
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model._
+import akka.http.scaladsl.model.ws.TextMessage
 import akka.http.scaladsl.server.Directives._
 import akka.stream.ActorMaterializer
-import akka.stream.scaladsl.Sink
+import akka.stream.scaladsl.{Sink, Source}
+import akka.util.Timeout
 import ovogotchi.emotion.EmotionEngine
 import ovogotchi.input.Demo
+import ovogotchi.output.WebsocketClients
+import ovogotchi.output.WebsocketClients.AddClient
+import ovogotchi.slackbot.SlackBot
 
 import scala.io.StdIn
+import scala.concurrent.duration._
 
-object Mainwq {
+object Main extends App {
 
   implicit val system = ActorSystem("ovogotchi")
   implicit val materializer = ActorMaterializer()
   // needed for the future flatMap/onComplete in the end
   implicit val executionContext = system.dispatcher
+  implicit val timeout = Timeout(1.second)
+
+  val websocketClients = system.actorOf(Props(new WebsocketClients), "websocketClients")
+  val slackbot = system.actorOf(Props(new SlackBot), "slackbot")
+  val engine = system.actorOf(Props(new EmotionEngine(websocketClients, slackbot)), "engine")
 
   val route =
     pathSingleSlash {
@@ -28,7 +40,7 @@ object Mainwq {
             |<div id="events"></div>
             |<script>
             |var div = document.getElementById("events");
-            |var socket = new WebSocket("ws://" + window.location.hostname + ":8080/ws")
+            |var socket = new WebSocket("ws://" + window.location.hostname + ":" + window.location.port + "/ws")
             |socket.onmessage = function(event) {
             |  console.log(event.data);
             |  var p = document.createElement("p");
@@ -45,8 +57,11 @@ object Mainwq {
     {
       path("ws") {
         extractUpgradeToWebSocket { upgradeToWS =>
-          complete(upgradeToWS.handleMessagesWithSinkSource(Sink.ignore, EmotionEngine.addClient()))
-
+          complete {
+            (websocketClients ? AddClient).mapTo[Source[TextMessage, Any]].map { source =>
+              upgradeToWS.handleMessagesWithSinkSource(Sink.ignore, source)
+            }
+          }
         }
       }
     } ~
@@ -73,7 +88,7 @@ object Mainwq {
         path("failed") {
           post {
             complete {
-              Demo.buildFailed()
+              Demo.buildFailed(engine)
               "OK"
             }
           }

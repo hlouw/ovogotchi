@@ -5,6 +5,8 @@ import akka.http.scaladsl.Http
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.server.Directives._
 import akka.stream.ActorMaterializer
+import akka.stream.scaladsl.Sink
+import ovogotchi.emotion.EmotionEngine
 import ovogotchi.input.Demo
 
 import scala.io.StdIn
@@ -17,6 +19,37 @@ object Main extends App {
   implicit val executionContext = system.dispatcher
 
   val route =
+    pathSingleSlash {
+      get {
+        complete(HttpEntity(ContentTypes.`text/html(UTF-8)`,
+          """
+            |<html>
+            |<body>
+            |<div id="events"></div>
+            |<script>
+            |var div = document.getElementById("events");
+            |var socket = new WebSocket("ws://" + window.location.hostname + ":8080/ws")
+            |socket.onmessage = function(event) {
+            |  console.log(event.data);
+            |  var p = document.createElement("p");
+            |  p.innerText = event.data;
+            |  div.appendChild(p);
+            |}
+            |</script>
+            |</body>
+            |</html>
+          """.stripMargin
+        ))
+      }
+    } ~
+    {
+      path("ws") {
+        extractUpgradeToWebSocket { upgradeToWS =>
+          complete(upgradeToWS.handleMessagesWithSinkSource(Sink.ignore, EmotionEngine.addClient()))
+
+        }
+      }
+    } ~
     pathPrefix("demo") {
       get {
         complete(HttpEntity(ContentTypes.`text/html(UTF-8)`,

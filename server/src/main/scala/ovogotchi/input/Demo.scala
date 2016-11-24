@@ -1,6 +1,6 @@
 package ovogotchi.input
 
-import ovogotchi.engine.EmotionEngine
+import ovogotchi.emotion.EmotionEngine
 
 object Demo {
 

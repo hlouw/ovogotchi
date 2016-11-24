@@ -8,6 +8,7 @@ import { WebSocketService } from '../shared/websocket.service';
 export interface CharacterStateMessage {
   state: string;
   wellbeing: number;
+  thought?: string;
 }
 
 @Injectable()
@@ -24,7 +25,8 @@ export class CharacterStateService {
         console.log(data);
         return {
           state: data.state,
-          wellbeing: data.wellbeing
+          wellbeing: data.wellbeing,
+          thought: data.thought
         };
       });
   }

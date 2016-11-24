@@ -20,7 +20,8 @@ class EmotionEngine(websocketClients: ActorRef) extends Actor {
       state = State(wellbeing = Random.nextInt(100), emotionalState = EmotionalState.Happy, lastInputEvent = Some(event))
 
       println(s"Sending updated state to websocket clients: $state")
-      websocketClients ! WebsocketClients.Broadcast(WebsocketPayload(state.emotionalState, state.wellbeing))
+      val payload = WebsocketPayload(state.emotionalState, state.wellbeing, None)
+      websocketClients ! WebsocketClients.Broadcast(payload)
 
       // TODO send slack message if necessary
     case GetCurrentState =>

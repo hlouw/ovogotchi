@@ -16,6 +16,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
   state: Observable<EmotionalState>;
   wellbeing: Observable<number>;
+  thought: Observable<string>;
 
   private emotionStore: Observable<OverallState>;
 
@@ -26,13 +27,15 @@ export class CharacterComponent implements OnInit, OnDestroy {
     this.emotionStore = this.store.select('emotion');
     this.state = this.emotionStore.select(s => s.state);
     this.wellbeing = this.emotionStore.select(s => s.wellbeing);
+    this.thought = this.emotionStore.select(s => s.thought);
   }
 
   ngOnInit() {
     this.connection = this.stateService.stateStream().subscribe(message => {
       this.store.dispatch({ type: STATE_UPDATE,  payload: {
         state: message.state,
-        wellbeing: message.wellbeing
+        wellbeing: message.wellbeing,
+        thought: message.thought
       }});
     });
   }

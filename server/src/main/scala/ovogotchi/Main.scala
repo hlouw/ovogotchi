@@ -31,36 +31,11 @@ object Main extends App {
   val engine = system.actorOf(Props(new EmotionEngine(websocketClients, slackbot)), "engine")
 
   val route =
-    pathSingleSlash {
-      get {
-        complete(HttpEntity(ContentTypes.`text/html(UTF-8)`,
-          """
-            |<html>
-            |<body>
-            |<div id="events"></div>
-            |<script>
-            |var div = document.getElementById("events");
-            |var socket = new WebSocket("ws://" + window.location.hostname + ":" + window.location.port + "/ws")
-            |socket.onmessage = function(event) {
-            |  console.log(event.data);
-            |  var p = document.createElement("p");
-            |  p.innerText = event.data;
-            |  div.appendChild(p);
-            |}
-            |</script>
-            |</body>
-            |</html>
-          """.stripMargin
-        ))
-      }
-    } ~
-    {
-      path("ws") {
-        extractUpgradeToWebSocket { upgradeToWS =>
-          complete {
-            (websocketClients ? AddClient).mapTo[Source[TextMessage, Any]].map { source =>
-              upgradeToWS.handleMessagesWithSinkSource(Sink.ignore, source)
-            }
+    path("ws") {
+      extractUpgradeToWebSocket { upgradeToWS =>
+        complete {
+          (websocketClients ? AddClient).mapTo[Source[TextMessage, Any]].map { source =>
+            upgradeToWS.handleMessagesWithSinkSource(Sink.ignore, source)
           }
         }
       }
@@ -94,7 +69,9 @@ object Main extends App {
           }
         }
       }
-    }
+    } ~
+    getFromResourceDirectory("frontend")
+
 
   val bindingFuture = Http().bindAndHandle(route, "0.0.0.0", 8080)
 

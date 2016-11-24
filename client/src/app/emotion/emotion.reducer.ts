@@ -9,7 +9,7 @@ export enum EmotionalState {
     HAPPY,
     NEUTRAL,
     SAD,
-    SICK,
+    ILL,
     HUNGRY,
     ANGRY,
     LONELY,
@@ -27,8 +27,11 @@ const stateMap = {
   'happy': EmotionalState.HAPPY,
   'neutral': EmotionalState.NEUTRAL,
   'sad': EmotionalState.SAD,
+  'ill': EmotionalState.ILL,
+  'hungry': EmotionalState.HUNGRY,
   'angry': EmotionalState.ANGRY,
-  'ill': EmotionalState.ILL
+  'lonely': EmotionalState.LONELY,
+  'stressed': EmotionalState.STRESSED,
 };
 
 export const emotionReducer: ActionReducer<OverallState> = (state: OverallState = INITIAL_STATE, action: Action) => {

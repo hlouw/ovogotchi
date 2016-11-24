@@ -5,6 +5,8 @@ import akka.http.scaladsl.Http
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.server.Directives._
 import akka.stream.ActorMaterializer
+import ovogotchi.input.Demo
+
 import scala.io.StdIn
 
 object Main extends App {
@@ -15,9 +17,34 @@ object Main extends App {
   implicit val executionContext = system.dispatcher
 
   val route =
-    path("hello") {
+    pathPrefix("demo") {
       get {
-        complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "<h1>Say hello to akka-http</h1>"))
+        complete(HttpEntity(ContentTypes.`text/html(UTF-8)`,
+          """
+            |<html>
+            |<body>
+            |<script>
+            |function buildFailed() {
+            |  var http = new XMLHttpRequest();
+            |  http.open("POST", "/demo/build/failed", true);
+            |  http.send();
+            |}
+            |</script>
+            |<a href="#" onclick="buildFailed()">Build failed in CI tool!</a>
+            |</body>
+            |</html>
+          """.stripMargin
+        ))
+      } ~
+      pathPrefix("build") {
+        path("failed") {
+          post {
+            complete {
+              Demo.buildFailed()
+              "OK"
+            }
+          }
+        }
       }
     }
 

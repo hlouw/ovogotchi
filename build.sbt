@@ -1,4 +1,4 @@
-scalaVersion in ThisBuild := "2.12.0"
+scalaVersion in ThisBuild := "2.11.8"
 
 val server = project.settings(
   libraryDependencies ++= Seq(

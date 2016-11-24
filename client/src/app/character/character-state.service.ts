@@ -14,13 +14,14 @@ export interface CharacterStateMessage {
 export class CharacterStateService {
 
   private messages: Subject<CharacterStateMessage>;
-  private url = 'ws://localhost:8080/ws';
 
   constructor(ws: WebSocketService) {
+    let url = 'ws://' + window.location.hostname + ':8080/ws';
     this.messages = <Subject<CharacterStateMessage>>ws
-      .connect(this.url)
+      .connect(url)
       .map((response: MessageEvent): CharacterStateMessage => {
         let data = JSON.parse(response.data);
+        console.log(data);
         return {
           state: data.state,
           wellbeing: data.wellbeing

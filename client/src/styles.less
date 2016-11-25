@@ -187,3 +187,54 @@ img {
     -webkit-transform: scale(1.0);
   }
 }
+
+
+// EGG
+.og-egg {
+  position: relative;
+  display: inline-block;
+  margin: 20px auto;
+}
+.egg {
+  width: 190px;
+  margin: 0 auto;
+  transform-origin: 50% 70% 0;
+  animation: rock 2s infinite ease-in-out;
+  position: relative;
+}
+.yolk {
+  width: 62%;
+  height: 0;
+  padding-bottom: 62%;
+  display: block;
+  border-radius: 50%;
+  background: #ffdb01;
+  position: absolute;
+  bottom: 12%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.shadow {
+  position: absolute;
+  top: 100%;
+  margin-top: -7px;
+  left: 0;
+  right: 0;
+  display: block;
+  background: rgba(0,0,0,0.2);
+  height: 14px;
+  border-radius: 50%;
+  animation: rock-shadow 2s infinite ease-in-out;
+}
+
+@-webkit-keyframes rock {
+  0% { transform: rotate(-18deg) }
+  50% { transform: rotate(18deg) }
+  100% { transform: rotate(-18deg) }
+}
+@-webkit-keyframes rock-shadow {
+  0% { transform: translateX(-5px) }
+  50% { transform: translateX(5px) }
+  100% { transform: translateX(-5px) }
+}
+

@@ -1,12 +1,12 @@
 package ovogotchi.slackbot
 
-import ovogotchi.emotion.EmotionalState
+import ovogotchi.input.InputEvent
 
 sealed trait Messages
 
 case class SendMessage(user: Option[String], message: String, channel: String) extends Messages
 
-case class NotifiableState(emotion: EmotionalState) extends Messages
+case class TriggerAlert(event: Seq[InputEvent]) extends Messages
 
 case class MessageReceived(message: String, user: String, channel: String) extends Messages
 

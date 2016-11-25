@@ -1,8 +1,9 @@
 package ovogotchi.emotion
 
-import akka.actor.{ActorRef, FSM}
+import akka.actor.{ActorRef, FSM, Props}
 import ovogotchi.emotion.EmotionEngineV2.{State, StateData}
 import ovogotchi.output.{WebsocketClients, WebsocketPayload}
+import ovogotchi.slackbot.SlackBot
 
 import scala.concurrent.duration._
 
@@ -13,8 +14,9 @@ class EmotionEngineV2(_personality: Personality, websocketClients: ActorRef) ext
   with Loneliness {
 
   import EmotionEngineV2._
-
   val personality: Personality = _personality
+
+  val slackbot = context.actorOf(Props(new SlackBot(self)), "slackbot")
 
   startWith(Undecided, StateData(CharacterState(50, EmotionalState.Neutral), EnvironmentState()))
 
@@ -40,14 +42,24 @@ class EmotionEngineV2(_personality: Personality, websocketClients: ActorRef) ext
       self ! RefreshState
 
     case _ =>
-      val c = nextStateData.charState
+      val c: CharacterState = nextStateData.charState
       val payload = WebsocketPayload(c.emotionalState, c.wellbeing, c.thought)
       websocketClients ! WebsocketClients.Broadcast(payload)
+
+  }
+
+  onTransition {
+    case _ -> Angry =>
+      val data: StateData = nextStateData
+      if(data.charState.emotionalState == EmotionalState.Angry){
+        println("I AM ANGRY!!!!")
+        slackbot ! nextStateData
+      }
   }
 
   whenUnhandled {
-    case Event(StateRequest, StateData(charState, _)) =>
-      sender ! charState
+    case Event(StateRequest, state) =>
+      sender ! state
       stay
 
     case Event(EnvironmentStatus(_, st), StateData(c, e)) =>

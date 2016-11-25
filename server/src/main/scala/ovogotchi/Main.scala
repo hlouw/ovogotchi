@@ -28,7 +28,6 @@ object Main extends App {
   val personality = Personality(temper = 1, recovery = 1, restingWellnessLow = 50, restingWellnessHigh = 60)
   val engine = system.actorOf(Props(new EmotionEngineV2(personality, websocketClients)), "engine")
 
-
   val route =
     path("ws") {
       extractUpgradeToWebSocket { upgradeToWS =>
@@ -143,6 +142,11 @@ object Main extends App {
 
 
   val bindingFuture = Http().bindAndHandle(route, "0.0.0.0", 8080)
+
+  system.scheduler.scheduleOnce(10000 milliseconds) {
+    println("FAILED YOOO")
+    Demo.buildFailed(engine)
+  }
 
   println("""
               .-"-.

@@ -3,6 +3,7 @@ package ovogotchi.emotion
 import io.circe.{Encoder, Json}
 
 sealed trait EmotionalState
+sealed trait NotifiableState
 
 object EmotionalState {
   case object Happy extends EmotionalState

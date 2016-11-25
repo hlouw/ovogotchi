@@ -1,19 +1,43 @@
 package ovogotchi.slackbot
 
-import ovogotchi.emotion.EmotionEngine.State
+import ovogotchi.emotion.EmotionEngineV2.{EnvironmentState, StateData}
+import ovogotchi.emotion.{EmotionalState, PullRequest}
+import ovogotchi.emotion.EmotionalState.Angry
 
 object Responders {
 
-  val responses: Map[QuestionAsked, (State => String)] = Map(
-    How -> { (state: State) =>
-      s"I'm ${state.emotionalState}"
+  val responses: Map[QuestionAsked, (StateData => String)] = Map(
+    How -> { (state: StateData) =>
+      state.charState.emotionalState match {
+        case EmotionalState.Angry =>
+          s"I'm clucking ${state.charState.emotionalState}"
+        case EmotionalState.Happy =>
+          s"I'm Eggcelent! "
+      }
     },
-    Why -> { (state: State) =>
-      "Hentie broke the build"
-    },
-    What -> { (state: State) =>
-      "Get Laurence a beer"
+    Why -> { (state: StateData) =>
+      val builds  = state.envState.failedBuilds
+      val prs     = state.envState.prs
+      val msg1 = if(builds.size == 1) "The following builds are broken : " + builds.mkString(", ") + "\n" else ""
+      val msg2 = if(prs.length > 0) s"This pull request ${prs.head.name} made has been oustanding for ${prs.head.ageHours} hours \n" else "\n"
+
+      msg1 + msg2
     }
   )
+
+  val alerts: Map[EmotionalState, (EnvironmentState => String)] = Map(
+    Angry -> {
+      (env: EnvironmentState) =>
+        val pullRequests = if(env.prs.length != 0){s"\nOutstanding pull requests: ${genPrMsg(env.prs)} \n"} else " "
+        val failedBuilds = if(env.failedBuilds.isEmpty){s"Failed builds: ${pullRequests} \n"} else ""
+        s"The environment status is:  ${env.envStatus}: $pullRequests $failedBuilds"
+    }
+  )
+
+  private def genPrMsg(prs: Seq[PullRequest]): String = {
+    prs.map{ pr =>
+      s"A pull request by ${pr.name} has been outsanding ${pr.ageHours} hours"
+    }.mkString(", \n")
+  }
 
 }

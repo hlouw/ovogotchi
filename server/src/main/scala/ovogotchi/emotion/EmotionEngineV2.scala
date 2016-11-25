@@ -23,11 +23,11 @@ class EmotionEngineV2(_personality: Personality, websocketClients: ActorRef) ext
   when(Undecided) {
     case Event(RefreshState, StateData(c, e)) =>
       if (e.failedBuilds.nonEmpty) {
-        goto(Angry) using StateData(c.copy(emotionalState = EmotionalState.Angry), e)
+        goto(Angry) using StateData(c.copy(emotionalState = EmotionalState.Angry, thought = Some("assets/gocd.png")), e)
       } else if (e.envStatus == "Degraded") {
-        goto(Ill) using StateData(c.copy(emotionalState = EmotionalState.Ill), e)
+        goto(Ill) using StateData(c.copy(emotionalState = EmotionalState.Ill, thought = Some("assets/aws.png")), e)
       } else if (e.prs.nonEmpty && (e.prs.map(_.ageHours).sum / e.prs.length > 4)) {
-        goto(Lonely) using StateData(c.copy(emotionalState = EmotionalState.Lonely), e)
+        goto(Lonely) using StateData(c.copy(emotionalState = EmotionalState.Lonely, thought = Some("assets/github.png")), e)
       } else {
         goto(WellbeingDriven)
       }

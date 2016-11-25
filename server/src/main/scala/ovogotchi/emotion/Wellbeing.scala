@@ -10,7 +10,7 @@ trait Wellbeing {
 
   when(WellbeingDriven) {
     case Event(RefreshState, StateData(charState, envState)) =>
-      val newCharState = charState.copy(emotionalState = wellbeingState(charState.wellbeing))
+      val newCharState = charState.copy(emotionalState = wellbeingState(charState.wellbeing), thought = None)
       goto(WellbeingDriven) using StateData(newCharState, envState)
 
     case Event(ProductionDeployment(_), StateData(c, e)) =>

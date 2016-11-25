@@ -36,7 +36,7 @@ trait Wellbeing {
   private def wellbeingState(wellbeing: Int): EmotionalState = {
     if (wellbeing >= Personality.HappyThreshold)
       EmotionalState.Happy
-    else if (wellbeing < Personality.NeutralThreshold)
+    else if (wellbeing < Personality.SadThreshold)
       EmotionalState.Sad
     else
       EmotionalState.Neutral

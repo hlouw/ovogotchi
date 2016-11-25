@@ -82,7 +82,7 @@ class SlackBot(emotionEngine: ActorRef) extends Actor {
     val res = if(lastAlert == 0) {lastAlert=System.currentTimeMillis(); true}
     else{
       val current = System.currentTimeMillis()
-      if((current - lastAlert) > 300000 ){System.currentTimeMillis(); true}
+      if((current - lastAlert) > 300000 ){lastAlert=System.currentTimeMillis(); true}
       else false
     }
     println(s"Should alert: ${res}")

@@ -16,17 +16,18 @@ object Responders {
         case EmotionalState.Neutral =>
           "I'm okay.."
         case EmotionalState.Lonely =>
-          "I'm feeling a bit lonely right now"
+          "I'm feeling a little egg-nored"
         case EmotionalState.Stressed =>
           "STRESSED!"
         case EmotionalState.Ill =>
-          "I'm feeling a bit queasy"
+          "I'm feeling a bit scrambled"
         case _ =>
           s"I'm $state"
       }
     },
     Why -> { (state: StateData) =>
       if(state.charState.emotionalState == EmotionalState.Happy){"The build was successful!"}
+      else if(state.charState.emotionalState == EmotionalState.Neutral){"I'm just okay..."}
       else {
         val builds = state.envState.failedBuilds
         val prs = state.envState.prs

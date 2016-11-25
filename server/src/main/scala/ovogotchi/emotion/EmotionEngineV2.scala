@@ -9,7 +9,8 @@ import scala.concurrent.duration._
 class EmotionEngineV2(_personality: Personality, websocketClients: ActorRef) extends FSM[State, StateData]
   with Wellbeing
   with Anger
-  with Illness {
+  with Illness
+  with Loneliness {
 
   import EmotionEngineV2._
 

@@ -25,7 +25,7 @@ object Main extends App {
   implicit val timeout = Timeout(1.second)
 
   val websocketClients = system.actorOf(Props(new WebsocketClients), "websocketClients")
-  val personality = Personality(temper = 1, recovery = 1)
+  val personality = Personality(temper = 1, recovery = 1, restingWellnessLow = 50, restingWellnessHigh = 60)
   val engine = system.actorOf(Props(new EmotionEngineV2(personality, websocketClients)), "engine")
 
 

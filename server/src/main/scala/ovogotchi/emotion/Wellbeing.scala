@@ -17,8 +17,11 @@ trait Wellbeing {
       goto(WellbeingDriven) using StateData(c.copy(wellbeing = c.wellbeing + 5), e)
 
     case Event(Tick, StateData(c, e)) =>
-      if (c.wellbeing < 100) {
+      if (c.wellbeing < personality.restingWellnessLow) {
         val newWellbeing = c.wellbeing + personality.recovery
+        goto(WellbeingDriven) using StateData(c.copy(wellbeing = newWellbeing), e)
+      } else if (c.wellbeing > personality.restingWellnessHigh) {
+        val newWellbeing = c.wellbeing - personality.recovery
         goto(WellbeingDriven) using StateData(c.copy(wellbeing = newWellbeing), e)
       } else {
         stay

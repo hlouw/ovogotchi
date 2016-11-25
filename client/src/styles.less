@@ -210,7 +210,10 @@ img {
     animation: rock 2.6s infinite ease-in-out;
   }
   .ill & {
-    animation: rock-ill 3.6s infinite ease-in-out;
+    animation: rock-ill 4s infinite ease-in-out;
+  }
+  .angry & {
+    animation: rock-angry 1s infinite ease-in-out;
   }
 }
 .yolk {
@@ -247,7 +250,7 @@ img {
     animation: rock-shadow 4s infinite ease-in-out;
   }
   .angry & {
-    animation: rock-shadow 4s infinite ease-in-out;
+    animation: rock-shadow 1s infinite ease-in-out;
   }
 }
 
@@ -267,9 +270,9 @@ img {
   100% { transform: rotate(-30deg) }
 }
 @-webkit-keyframes rock-angry {
-  0% { transform: rotate(-30deg) }
-  50% { transform: rotate(30deg) }
-  100% { transform: rotate(-30deg) }
+  0% { transform: rotate(-20deg) }
+  50% { transform: rotate(20deg) }
+  100% { transform: rotate(-20deg) }
 }
 @-webkit-keyframes rock-shadow {
   0% { transform: translateX(-5px) }

@@ -18,14 +18,10 @@ export class AvatarComponent {
         return 'assets/sad.gif';
       case EmotionalState.ILL:
         return 'assets/ill.png';
-      case EmotionalState.HUNGRY:
-        return 'assets/hungry.png';
       case EmotionalState.ANGRY:
         return 'assets/angry.png';
       case EmotionalState.LONELY:
         return 'assets/lonely.png';
-      case EmotionalState.STRESSED:
-        return 'assets/stressed.png';
     }
   }
 }

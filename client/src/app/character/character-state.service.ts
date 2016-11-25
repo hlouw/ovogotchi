@@ -17,7 +17,7 @@ export class CharacterStateService {
   private messages: Subject<CharacterStateMessage>;
 
   constructor(ws: WebSocketService) {
-    let url = 'ws://' + window.location.hostname + ':8080/ws';
+    let url = 'ws://' + window.location.hostname + ':' + window.location.port + '/ws';
     this.messages = <Subject<CharacterStateMessage>>ws
       .connect(url)
       .map((response: MessageEvent): CharacterStateMessage => {

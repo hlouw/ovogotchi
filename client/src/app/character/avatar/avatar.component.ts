@@ -21,7 +21,7 @@ export class AvatarComponent {
       case EmotionalState.ANGRY:
         return 'assets/angry.gif';
       case EmotionalState.LONELY:
-        return 'assets/lonely.png';
+        return 'assets/lonely.gif';
     }
   }
 }

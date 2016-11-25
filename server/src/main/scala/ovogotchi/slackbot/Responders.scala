@@ -41,9 +41,9 @@ object Responders {
   val alerts: Map[EmotionalState, (EnvironmentState => String)] = Map(
     Angry -> {
       (env: EnvironmentState) =>
-        val pullRequests = if(env.prs.length != 0){s"\nOutstanding pull requests: ${genPrMsg(env.prs)} \n"} else " "
-        val failedBuilds = if(env.failedBuilds.isEmpty){s"Failed builds: ${pullRequests} \n"} else ""
-        s"The environment status is:  ${env.envStatus}: $pullRequests $failedBuilds"
+        //val pullRequests = if(env.prs.length != 0){s"\nOutstanding pull requests: ${genPrMsg(env.prs)} \n"} else " "
+        val failedBuilds = if(env.failedBuilds.nonEmpty){s"Failed builds: ${env.failedBuilds} \n"} else ""
+        s"I'm clucking angry! $failedBuilds"
     }
   )
 

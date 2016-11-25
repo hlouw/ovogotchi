@@ -13,6 +13,16 @@ object Responders {
           s"I'm clucking ${state.charState.emotionalState}"
         case EmotionalState.Happy =>
           s"I'm Eggcelent! "
+        case EmotionalState.Neutral =>
+          "I'm okay.."
+        case EmotionalState.Lonely =>
+          "I'm feeling a bit lonely right now"
+        case EmotionalState.Stressed =>
+          "STRESSED!"
+        case EmotionalState.Ill =>
+          "I'm feeling a bit queasy"
+        case _ =>
+          s"I'm $state"
       }
     },
     Why -> { (state: StateData) =>

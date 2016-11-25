@@ -143,11 +143,6 @@ object Main extends App {
 
   val bindingFuture = Http().bindAndHandle(route, "0.0.0.0", 8080)
 
-  system.scheduler.scheduleOnce(10000 milliseconds) {
-    println("FAILED YOOO")
-    Demo.buildFailed(engine)
-  }
-
   println("""
               .-"-.
             .'=^=^='.

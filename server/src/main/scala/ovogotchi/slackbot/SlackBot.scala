@@ -68,7 +68,7 @@ class SlackBot(emotionEngine: ActorRef) extends Actor {
 
   override def receive: Receive = {
     case msg: SendMessage           => sendMessage(msg.channel, msg.message, msg.user)
-    case ntf: SendNotification      => sendMessage(ntf.channel, "@channel" + ntf.message, Some("channel"))
+//    case ntf: SendNotification      => sendMessage(ntf.channel, "@channel" + ntf.message, Some("channel"))
     case received: MessageReceived  => parseReceivedMessage(received)
     case state: State               =>
   }

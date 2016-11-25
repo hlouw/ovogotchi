@@ -1,21 +1,19 @@
 package ovogotchi
 
 import akka.actor.{ActorSystem, Props}
-import akka.pattern.ask
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.model.ws.TextMessage
 import akka.http.scaladsl.server.Directives._
+import akka.pattern.ask
 import akka.stream.ActorMaterializer
 import akka.stream.scaladsl.{Sink, Source}
 import akka.util.Timeout
-import ovogotchi.emotion.EmotionEngine
+import ovogotchi.emotion.{EmotionEngineV2, Personality}
 import ovogotchi.input.Demo
 import ovogotchi.output.WebsocketClients
 import ovogotchi.output.WebsocketClients.AddClient
-import ovogotchi.slackbot.SlackBot
 
-import scala.io.StdIn
 import scala.concurrent.duration._
 
 object Main extends App {
@@ -27,8 +25,8 @@ object Main extends App {
   implicit val timeout = Timeout(1.second)
 
   val websocketClients = system.actorOf(Props(new WebsocketClients), "websocketClients")
-  val engine = system.actorOf(Props(new EmotionEngine(websocketClients)), "engine")
-
+  val personality = Personality(temper = 1, recovery = 1)
+  val engine = system.actorOf(Props(new EmotionEngineV2(personality, websocketClients)), "engine")
 
 
   val route =

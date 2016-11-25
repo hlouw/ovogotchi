@@ -51,8 +51,34 @@ object Main extends App {
             |  http.open("POST", "/demo/build/failed", true);
             |  http.send();
             |}
+            |function buildSucceeded() {
+            |  var http = new XMLHttpRequest();
+            |  http.open("POST", "/demo/build/succeeded", true);
+            |  http.send();
+            |}
+            |function buildDeployed() {
+            |  var http = new XMLHttpRequest();
+            |  http.open("POST", "/demo/build/deployed", true);
+            |  http.send();
+            |}
+            |function envDegraded() {
+            |  var http = new XMLHttpRequest();
+            |  http.open("POST", "/demo/environment/degraded", true);
+            |  http.send();
+            |}
+            |function envOK() {
+            |  var http = new XMLHttpRequest();
+            |  http.open("POST", "/demo/environment/ok", true);
+            |  http.send();
+            |}
             |</script>
-            |<a href="#" onclick="buildFailed()">Build failed in CI tool!</a>
+            |<ul>
+            | <li><button onclick="buildFailed()">Build failed in CI tool</button></li>
+            | <li><button onclick="buildSucceeded()">Build succeeded in CI tool</button></li>
+            | <li><button onclick="buildDeployed()">Build deployed to production</button></li>
+            | <li><button onclick="envDegraded()">Production environment degraded</button></li>
+            | <li><button onclick="envOK()">Production environment OK</button></li>
+            |</ul>
             |</body>
             |</html>
           """.stripMargin
@@ -66,7 +92,41 @@ object Main extends App {
               "OK"
             }
           }
+        } ~
+        path("succeeded") {
+          post {
+            complete {
+              Demo.buildSucceeded(engine)
+              "OK"
+            }
+          }
+        } ~
+        path("deployed") {
+          post {
+            complete {
+              Demo.productionDeployment(engine)
+              "OK"
+            }
+          }
         }
+      } ~
+      pathPrefix("environment") {
+        path("degraded") {
+          post {
+            complete {
+              Demo.environmentStatus(engine, "Degraded")
+              "OK"
+            }
+          }
+        } ~
+          path("ok") {
+            post {
+              complete {
+                Demo.environmentStatus(engine, "Ok")
+                "OK"
+              }
+            }
+          }
       }
     } ~
     path("healthcheck") {

@@ -4,31 +4,29 @@ import akka.actor.FSM
 import ovogotchi.emotion.EmotionEngineV2._
 
 trait Wellbeing {
-  this: FSM[State, CharacterState] =>
+  this: FSM[State, StateData] =>
 
   def personality: Personality
 
   when(WellbeingDriven) {
-    case Event(RefreshState, d: CharacterState) =>
-      goto(WellbeingDriven) using d.copy(emotionalState = wellbeingState(d.wellbeing))
+    case Event(RefreshState, StateData(charState, envState)) =>
+      val newCharState = charState.copy(emotionalState = wellbeingState(charState.wellbeing))
+      goto(WellbeingDriven) using StateData(newCharState, envState)
 
-    case Event(input: InputEvent, d: CharacterState) if makesIll(input) =>
-      goto(Ill) using d.copy(emotionalState = EmotionalState.Ill)
+    case Event(ProductionDeployment(_), StateData(c, e)) =>
+      goto(WellbeingDriven) using StateData(c.copy(wellbeing = c.wellbeing + 5), e)
 
-    case Event(input: InputEvent, d: CharacterState) if makesAngry(input) =>
-      goto(Angry) using d.copy(emotionalState = EmotionalState.Angry)
-
-    case Event(Tick, d: CharacterState) =>
-      if (d.wellbeing < 100) {
-        val newWellbeing = d.wellbeing + personality.recovery
-        goto(WellbeingDriven) using d.copy(wellbeing = newWellbeing)
+    case Event(Tick, StateData(c, e)) =>
+      if (c.wellbeing < 100) {
+        val newWellbeing = c.wellbeing + personality.recovery
+        goto(WellbeingDriven) using StateData(c.copy(wellbeing = newWellbeing), e)
       } else {
         stay
       }
   }
 
   onTransition {
-    case _ -> WellbeingDriven if nextStateData.emotionalState != wellbeingState(nextStateData.wellbeing) =>
+    case _ -> WellbeingDriven if nextStateData.charState.emotionalState != wellbeingState(nextStateData.charState.wellbeing) =>
       self ! RefreshState
   }
 
@@ -39,14 +37,6 @@ trait Wellbeing {
       EmotionalState.Sad
     else
       EmotionalState.Neutral
-  }
-
-  def makesAngry(input: InputEvent): Boolean = {
-    true
-  }
-
-  def makesIll(input: InputEvent): Boolean = {
-    true
   }
 
 }

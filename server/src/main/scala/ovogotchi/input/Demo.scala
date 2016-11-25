@@ -1,7 +1,7 @@
 package ovogotchi.input
 
 import akka.actor.ActorRef
-import ovogotchi.emotion.EmotionEngineV2
+import ovogotchi.emotion._
 
 object Demo {
 
@@ -16,27 +16,26 @@ object Demo {
 //  }
 
   def buildFailed(emotionEngine: ActorRef): Unit = {
-    import EmotionEngineV2.InputEvent
-
-    emotionEngine ! InputEvent()
+    emotionEngine ! PipelineFailure("public-api-paym")
   }
 
   def buildSucceeded(emotionEngine: ActorRef): Unit = {
-    import EmotionEngineV2.InputEvent
-
-    emotionEngine ! InputEvent()
+    emotionEngine ! PipelineSuccess("public-api-paym")
   }
 
   def productionDeployment(emotionEngine: ActorRef): Unit = {
-    import EmotionEngineV2.InputEvent
-
-    emotionEngine ! InputEvent()
+    emotionEngine ! ProductionDeployment("public-api-paym")
   }
 
   def openPullRequests(emotionEngine: ActorRef): Unit = {
-    import EmotionEngineV2.InputEvent
-
-    emotionEngine ! InputEvent()
+    emotionEngine ! OpenPullRequests(Seq(PullRequest("public-api-paym", 5)))
   }
 
+  def closeAllPullRequests(emotionEngine: ActorRef): Unit = {
+    emotionEngine ! OpenPullRequests(Seq())
+  }
+
+  def environmentStatus(emotionEngine: ActorRef, status: String): Unit = {
+    emotionEngine ! EnvironmentStatus("public-api-paym", status)
+  }
 }

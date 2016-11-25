@@ -1,7 +1,6 @@
 package ovogotchi.emotion
 
 import akka.actor.{Actor, ActorRef, Props}
-import ovogotchi.input.InputEvent
 import ovogotchi.output.{WebsocketClients, WebsocketPayload}
 import ovogotchi.slackbot.{NotifiableState, SlackBot}
 

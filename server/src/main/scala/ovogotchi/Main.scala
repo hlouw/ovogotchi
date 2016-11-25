@@ -70,6 +70,16 @@ object Main extends App {
             |  http.open("POST", "/demo/environment/ok", true);
             |  http.send();
             |}
+            |function openPRs() {
+            |  var http = new XMLHttpRequest();
+            |  http.open("POST", "/demo/github/openprs", true);
+            |  http.send();
+            |}
+            |function closePRs() {
+            |  var http = new XMLHttpRequest();
+            |  http.open("POST", "/demo/github/closeprs", true);
+            |  http.send();
+            |}
             |</script>
             |<ul>
             | <li><button onclick="buildFailed()">Build failed in CI tool</button></li>
@@ -77,6 +87,8 @@ object Main extends App {
             | <li><button onclick="buildDeployed()">Build deployed to production</button></li>
             | <li><button onclick="envDegraded()">Production environment degraded</button></li>
             | <li><button onclick="envOK()">Production environment OK</button></li>
+            | <li><button onclick="openPRs()">Open PRs</button></li>
+            | <li><button onclick="closePRs()">Close PRs</button></li>
             |</ul>
             |</body>
             |</html>
@@ -126,6 +138,24 @@ object Main extends App {
               }
             }
           }
+      } ~
+      pathPrefix("github") {
+        path("openprs") {
+          post {
+            complete {
+              Demo.openPullRequests(engine)
+              "OK"
+            }
+          }
+        } ~
+        path("closeprs") {
+          post {
+            complete {
+              Demo.closeAllPullRequests(engine)
+              "OK"
+            }
+          }
+        }
       }
     } ~
     path("healthcheck") {

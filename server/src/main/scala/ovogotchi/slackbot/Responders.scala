@@ -16,12 +16,15 @@ object Responders {
       }
     },
     Why -> { (state: StateData) =>
-      val builds  = state.envState.failedBuilds
-      val prs     = state.envState.prs
-      val msg1 = if(builds.size == 1) "The following builds are broken : " + builds.mkString(", ") + "\n" else ""
-      val msg2 = if(prs.length > 0) s"This pull request ${prs.head.name} made has been oustanding for ${prs.head.ageHours} hours \n" else "\n"
+      if(state.charState.emotionalState == EmotionalState.Happy){"The build was successful!"}
+      else {
+        val builds = state.envState.failedBuilds
+        val prs = state.envState.prs
+        val msg1 = if (builds.size == 1) "The following builds are broken : " + builds.mkString(", ") + "\n" else ""
+        val msg2 = if (prs.nonEmpty) s"This pull request ${prs.head.name} made has been oustanding for ${prs.head.ageHours} hours \n" else "\n"
 
-      msg1 + msg2
+        msg1 + msg2
+      }
     }
   )
 

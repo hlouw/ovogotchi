@@ -17,7 +17,7 @@ export class AvatarComponent {
       case EmotionalState.SAD:
         return 'assets/sad.gif';
       case EmotionalState.ILL:
-        return 'assets/ill.png';
+        return 'assets/ill.gif';
       case EmotionalState.ANGRY:
         return 'assets/angry.png';
       case EmotionalState.LONELY:

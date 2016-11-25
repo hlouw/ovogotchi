@@ -246,6 +246,9 @@ img {
   .ill & {
     animation: rock-shadow 4s infinite ease-in-out;
   }
+  .angry & {
+    animation: rock-shadow 4s infinite ease-in-out;
+  }
 }
 
 @-webkit-keyframes rock {
@@ -259,6 +262,11 @@ img {
   100% { transform: rotate(-18deg) }
 }
 @-webkit-keyframes rock-ill {
+  0% { transform: rotate(-30deg) }
+  50% { transform: rotate(30deg) }
+  100% { transform: rotate(-30deg) }
+}
+@-webkit-keyframes rock-angry {
   0% { transform: rotate(-30deg) }
   50% { transform: rotate(30deg) }
   100% { transform: rotate(-30deg) }

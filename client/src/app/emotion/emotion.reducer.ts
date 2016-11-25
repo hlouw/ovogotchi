@@ -18,7 +18,7 @@ export enum EmotionalState {
 export const STATE_UPDATE = 'STATE_UPDATE';
 
 const INITIAL_STATE: OverallState = {
-    state: EmotionalState.NEUTRAL,
+    state: EmotionalState.ANGRY,
     wellbeing: 70
 };
 

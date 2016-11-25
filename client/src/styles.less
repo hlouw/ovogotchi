@@ -200,8 +200,18 @@ img {
   width: 190px;
   margin: 0 auto;
   transform-origin: 50% 70% 0;
-  animation: rock 2s infinite ease-in-out;
+  animation: rock 2.2s infinite ease-in-out;
   position: relative;
+
+  .happy & {
+    animation: rock-happy 1.6s infinite ease-in-out;
+  }
+  .sad & {
+    animation: rock 2.6s infinite ease-in-out;
+  }
+  .ill & {
+    animation: rock-ill 3.6s infinite ease-in-out;
+  }
 }
 .yolk {
   width: 62%;
@@ -225,17 +235,36 @@ img {
   background: rgba(0,0,0,0.2);
   height: 14px;
   border-radius: 50%;
-  animation: rock-shadow 2s infinite ease-in-out;
+  animation: rock-shadow 2.2s infinite ease-in-out;
+
+  .happy & {
+    animation: rock-shadow 1.6s infinite ease-in-out;
+  }
+  .sad & {
+    animation: rock-shadow 2.6s infinite ease-in-out;
+  }
+  .ill & {
+    animation: rock-shadow 4s infinite ease-in-out;
+  }
 }
 
 @-webkit-keyframes rock {
+  0% { transform: rotate(-10deg) }
+  50% { transform: rotate(10deg) }
+  100% { transform: rotate(-10deg) }
+}
+@-webkit-keyframes rock-happy {
   0% { transform: rotate(-18deg) }
   50% { transform: rotate(18deg) }
   100% { transform: rotate(-18deg) }
+}
+@-webkit-keyframes rock-ill {
+  0% { transform: rotate(-30deg) }
+  50% { transform: rotate(30deg) }
+  100% { transform: rotate(-30deg) }
 }
 @-webkit-keyframes rock-shadow {
   0% { transform: translateX(-5px) }
   50% { transform: translateX(5px) }
   100% { transform: translateX(-5px) }
 }
-
